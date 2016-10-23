@@ -28,7 +28,7 @@
   </parent>
   <groupId>org.xwiki.contrib</groupId>
   <artifactId>macro-elasticsearch</artifactId>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <packaging>xar</packaging>
   <name>XWiki Macro - Elastic Search</name>
   <description>Elastic Search and Kibana4 macros</description>
@@ -60,7 +60,7 @@
     <connection>scm:git:git://github.com/xwiki-contrib/macro-elasticsearch.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki-contrib/macro-elasticsearch.git</developerConnection>
     <url>https://github.com/xwiki-contrib/macro-elasticsearch</url>
-    <tag>macro-elasticsearch-1.0</tag>
+    <tag>HEAD</tag>
   </scm>
   <distributionManagement>
     <repository>
