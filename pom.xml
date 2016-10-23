@@ -27,10 +27,10 @@
     <version>5.4.4</version>
   </parent>
   <groupId>org.xwiki.contrib</groupId>
-  <artifactId>application-macro-elasticsearch</artifactId>
-  <version>1.0</version>
+  <artifactId>macro-elasticsearch</artifactId>
+  <version>1.0-SNAPSHOT</version>
   <packaging>xar</packaging>
-  <name>XWiki Application - macro-elasticsearch</name>
+  <name>XWiki Macro - Elastic Search</name>
   <description>Elastic Search and Kibana4 macros</description>
   <developers>
     <developer>
