@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc reference="ElasticSearch.Samples.Kibana4MacroSample" locale="">
+  <web>ElasticSearch.Samples</web>
+  <name>Kibana4MacroSample</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>ElasticSearch.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1451602800000</creationDate>
+  <date>1451602800000</date>
+  <contentUpdateDate>1451602800000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Kibana4 Macro Sample</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>
+This page shows some examples of the kibana4 macro allowing to display a widget from a kibana server. For this demo we are using widgets from the server http://parlement.letemps.ch/ (if this server goes away or the widgets are changed this demo will not work anymore).
+
+The following macro shows one widget from the "Default" dashboard. It is necessary to know the name of the widget. The "panels" parameter can be extracted from the URL in the iframe source parameter when clicking on "share" in kibana4.
+
+{{kibana4 server="http://parlement.letemps.ch/" filters="" panels="(col:1,id:Count-per-name,row:1,size_x:12,size_y:4,type:visualization)" height="600" width="800" /}}
+
+Here is the code for this example:
+
+{{code}}
+{{kibana4 server="http://parlement.letemps.ch/" filters="" panels="(col:1,id:Count-per-name,row:1,size_x:12,size_y:4,type:visualization)" height="600" width="800" /}}
+{{/code}}
+
+In this example, the filters and query parameters are added. The "panels" and "filters" parameters can be extracted from the URL in the iframe source parameter when clicking on "share" in kibana4.
+
+{{kibana4 server="http://parlement.letemps.ch/" dashboard="Default1" panels="(col:1,id:Distribution-par-canton,row:1,size_x:6,size_y:5,type:visualization)" filters="(meta:(disabled:!f,index:parlament,key:canton,negate:!f,value:zh))" query="match:(canton:(query:zh,type:phrase))" height="600" width="800" /}}
+
+Here is the code for this example:
+
+{{code}}
+{{kibana4 server="http://parlement.letemps.ch/" dashboard="Default1" panels="(col:1,id:Distribution-par-canton,row:1,size_x:6,size_y:5,type:visualization)" filters="(meta:(disabled:!f,index:parlament,key:canton,negate:!f,value:zh))" query="match:(canton:(query:zh,type:phrase))" height="600" width="800" /}}
+{{/code}}
+
+In this example, the URL from a widget is used as is. It can be extracted from the iframe source parameters when clicking on "Share" in kibana4.
+
+{{kibana4 url="http://parlement.letemps.ch/#/dashboard/Default1?embed&amp;_g=()&amp;_a=(filters:!((meta:(disabled:!f,index:parlament,key:canton,negate:!f,value:zh),query:(match:(canton:(query:zh,type:phrase))))),panels:!((col:1,id:Distribution-par-canton,row:1,size_x:6,size_y:5,type:visualization),(col:1,id:Count-per-name,row:6,size_x:6,size_y:4,type:visualization),(col:7,id:Top-10-Surnames,row:6,size_x:6,size_y:4,type:visualization),(col:7,id:Profession-per-Party,row:1,size_x:6,size_y:5,type:visualization)),query:(query_string:(analyze_wildcard:!t,query:'*')),title:Default1)" height="600" width="800" /}}
+
+Here is the code for this example:
+
+{{code}}
+{{kibana4 url="http://parlement.letemps.ch/#/dashboard/Default1?embed&amp;_g=()&amp;_a=(filters:!((meta:(disabled:!f,index:parlament,key:canton,negate:!f,value:zh),query:(match:(canton:(query:zh,type:phrase))))),panels:!((col:1,id:Distribution-par-canton,row:1,size_x:6,size_y:5,type:visualization),(col:1,id:Count-per-name,row:6,size_x:6,size_y:4,type:visualization),(col:7,id:Top-10-Surnames,row:6,size_x:6,size_y:4,type:visualization),(col:7,id:Profession-per-Party,row:1,size_x:6,size_y:5,type:visualization)),query:(query_string:(analyze_wildcard:!t,query:'*')),title:Default1)" height="600" width="800" /}}
+{{/code}}
+</content>
+</xwikidoc>
