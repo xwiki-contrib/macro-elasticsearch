@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc reference="ElasticSearch.Groovy" locale="">
+  <web>ElasticSearch</web>
+  <name>Groovy</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent/>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1451602800000</creationDate>
+  <date>1451602800000</date>
+  <contentUpdateDate>1451602800000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>
+import org.apache.commons.httpclient.*;
+import org.apache.commons.httpclient.methods.*;
+import groovy.json.JsonSlurper;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.DateTime;
+
+public class ESGroovy {
+ def serverURL;
+ def debugStr = "";
+
+ public debug(str) {
+   debugStr += str + "\n";
+ }
+
+ public setServerURL(serverURL) {
+   this.serverURL = serverURL;
+ } 
+
+ def getData(query) {
+   return getData(serverURL, query)
+ }
+
+ def getData(url, query) {
+   debug("URL: {{{ ${url} }}} Query: {{{ ${query} }}}")
+   def client = new HttpClient();
+   def post = new PostMethod(url);
+   def requestEntity = new StringRequestEntity(
+    query,
+    "application/json",
+    "UTF-8");
+
+  post.setRequestEntity(requestEntity);
+  def statusCode = client.executeMethod(post);
+
+  def responseBody = new String(post.getResponseBody());
+  debug("{{{ ${responseBody} }}}")
+  try {
+   def jsons = new JsonSlurper()
+   def res = jsons.parseText(responseBody)
+   return res;
+  } catch (e) {
+   debug(e.getMessage())
+   debug("{{{ ${responseBody} }}}")
+   return null;
+  }
+ }
+ 
+def showBucketsData(data, model, keyField, reverse) { 
+ def result = ""
+ def colName = keyField;      
+ def dateFormatter = null;
+
+ try {
+  if (data==null ||  data.aggregations==null || data.aggregations[colName]==null) {
+   return "No data"
+  } else {
+
+   def buckets = data.aggregations[colName].buckets;
+
+   if (reverse)
+    buckets = buckets.reverse();
+   for (field in model) {
+    result += "|= ${field.prettyName}";
+   }
+   result += "\n";
+
+   for (item in buckets) {
+    for (field in model) {
+      def displayValue = "";
+      def value = field.isKey ? item[field.name] : item[field.name].value;
+
+      if (field.type=="date") {
+        if (dateFormatter==null) {
+           dateFormatter = DateTimeFormat.forPattern(field.format);
+        }
+        def datetime = new DateTime(value);
+        displayValue = dateFormatter.print(datetime);
+      } else {
+        displayValue = value;
+      }
+     result +=  """|((( ${displayValue} )))"""
+    }
+    result += "\n";
+   }
+   return result;
+  }
+ } catch (e) {
+   println e.getMessage();
+ }
+}
+
+ public getBucketsQuery(query, filter, scriptFilter, aggKeyName, aggKeyType, aggKeyField, aggKeyInterval, aggName, aggField) {
+  // query to calculate number of installs
+  def esquery = """{
+    "query": {
+        "filtered": {
+            "query": {
+                "query_string": {
+                  "query": "${query}"
+                }
+            }"""
+
+  if (scriptFilter) {
+   esquery += """,
+            "filter": {
+                   "script" : {
+                      "script" : "${scriptFilter}" 
+                   }
+            }
+        }"""
+  }
+
+  esquery += """},
+    "aggregations" : {
+        "${aggKeyName}": {
+            "${aggKeyType}": {
+                "field":    "${aggKeyField}",
+                "interval": "${aggKeyInterval}"
+            },
+            "aggregations": {
+                "${aggName}": {
+                    "cardinality": {
+                        "field": "${aggField}"
+                    }
+                }
+           }
+       }
+    }
+  }"""
+   
+  return esquery;
+ }
+}</content>
+</xwikidoc>
