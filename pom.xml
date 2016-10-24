@@ -30,12 +30,12 @@
   <artifactId>macro-elasticsearch</artifactId>
   <version>1.1-SNAPSHOT</version>
   <packaging>xar</packaging>
-  <name>XWiki Macro - Elastic Search</name>
+  <name>Elastic Search Macro</name>
   <description>Elastic Search and Kibana4 macros</description>
   <developers>
     <developer>
       <id>ldubost</id>
-      <name>ldubost</name>
+      <name>Ludovic Dubost</name>
     </developer>
   </developers>
  <build>
